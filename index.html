@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Orderline · Nimbus Threads Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="ticket-header">
+    <div class="ticket-header__left">
+      <div class="stamp">NT</div>
+      <div class="ticket-header__text">
+        <span class="eyebrow">Nimbus Threads · Customer Support</span>
+        <h1>Orderline</h1>
+      </div>
+    </div>
+    <div class="ticket-header__right">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusLabel">Ada is online</span>
+    </div>
+  </header>
+
+  <div class="perforation" aria-hidden="true"></div>
+
+  <main class="chat-panel">
+    <div class="chat-scroll" id="chatScroll">
+      <div class="msg msg--bot">
+        <div class="msg__label">ADA</div>
+        <div class="msg__bubble">
+          Hi, I'm Ada — support for Nimbus Threads. I can help with order tracking,
+          returns, sizing, or shipping questions. What's going on with your order today?
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions" id="quickActions">
+      <button class="chip" data-prompt="Where is my order? My order number is #NT-10482.">Track my order</button>
+      <button class="chip" data-prompt="What's your return policy?">Return policy</button>
+      <button class="chip" data-prompt="I received the wrong size, what do I do?">Sizing help</button>
+      <button class="chip" data-prompt="I want to talk to a human agent.">Talk to a human</button>
+    </div>
+
+    <form class="composer" id="composerForm">
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Type your question…"
+        autocomplete="off"
+        maxlength="1000"
+      />
+      <button type="submit" id="sendBtn" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M3 11L21 3L13 21L11 13L3 11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+  </main>
+
+  <footer class="barcode-footer" aria-hidden="true"></footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

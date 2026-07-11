@@ -1,0 +1,314 @@
+/* ---------------------------------------------------------
+   Orderline — token system
+   Color:
+     --kraft:      #E7DCC5  (parcel-paper background)
+     --ink:        #211C16  (near-black text)
+     --postal-red: #C1442E  (accent / stamp)
+     --teal:       #2F6F5E  (success / online)
+     --line:       #C9BB9C  (hairline dividers)
+     --paper:      #FBF7EE  (chat bubble surface)
+   Type:
+     Display: 'Oswald' (condensed, industrial — shipping-label feel)
+     Body:    'Inter'
+     Mono:    'Space Mono' (order numbers, timestamps, status)
+   Signature: torn perforation strip + corner "postmark" stamp
+----------------------------------------------------------*/
+
+:root {
+  --kraft: #E7DCC5;
+  --kraft-dark: #DCCDA9;
+  --ink: #211C16;
+  --postal-red: #C1442E;
+  --teal: #2F6F5E;
+  --line: #C9BB9C;
+  --paper: #FBF7EE;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--kraft);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(33,28,22,0.05) 1px, transparent 0);
+  background-size: 18px 18px;
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 560px;
+  background: var(--paper);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(33,28,22,0.05), 0 20px 40px -20px rgba(33,28,22,0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: min(720px, 88vh);
+}
+
+/* ---- Header: shipping label ---- */
+.ticket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  background: var(--ink);
+  color: var(--kraft);
+}
+
+.ticket-header__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stamp {
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--postal-red);
+  border-radius: 50%;
+  color: var(--postal-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 15px;
+  transform: rotate(-8deg);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kraft-dark);
+  margin-bottom: 2px;
+}
+
+.ticket-header h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.ticket-header__right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--kraft-dark);
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 3px rgba(47,111,94,0.25);
+}
+
+/* ---- Perforation signature element ---- */
+.perforation {
+  height: 0;
+  border-top: 2px dashed var(--line);
+  position: relative;
+  margin: 0 0;
+}
+.perforation::before,
+.perforation::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  background: var(--kraft);
+  border-radius: 50%;
+}
+.perforation::before { left: -8px; }
+.perforation::after { right: -8px; }
+
+/* ---- Chat panel ---- */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 22px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 88%;
+}
+
+.msg--user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.msg--bot {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.msg__label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #8A7C61;
+  margin-bottom: 4px;
+  padding: 0 4px;
+}
+
+.msg__bubble {
+  padding: 11px 14px;
+  border-radius: 3px;
+  line-height: 1.5;
+  font-size: 14.5px;
+  white-space: pre-wrap;
+}
+
+.msg--bot .msg__bubble {
+  background: var(--kraft);
+  border: 1px solid var(--line);
+  border-top-left-radius: 0;
+}
+
+.msg--user .msg__bubble {
+  background: var(--ink);
+  color: var(--paper);
+  border-top-right-radius: 0;
+}
+
+.msg__bubble .cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: var(--postal-red);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- Quick action chips ---- */
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 22px;
+  border-top: 1px solid var(--line);
+}
+
+.chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 7px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.chip:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Composer ---- */
+.composer {
+  display: flex;
+  gap: 10px;
+  padding: 14px 22px 20px;
+}
+
+#messageInput {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+#messageInput:focus {
+  outline: 2px solid var(--postal-red);
+  outline-offset: 1px;
+}
+
+#sendBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 3px;
+  border: none;
+  background: var(--postal-red);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+#sendBtn:hover { transform: translateY(-1px); }
+#sendBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ---- Barcode footer signature ---- */
+.barcode-footer {
+  height: 14px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0px, var(--ink) 2px,
+    transparent 2px, transparent 5px,
+    var(--ink) 5px, var(--ink) 6px,
+    transparent 6px, transparent 10px
+  );
+  opacity: 0.85;
+}
+
+/* ---- Scrollbar ---- */
+.chat-scroll::-webkit-scrollbar { width: 8px; }
+.chat-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+/* ---- Mobile ---- */
+@media (max-width: 480px) {
+  body { padding: 0; }
+  .wrap { max-width: 100%; border-radius: 0; min-height: 100vh; }
+  .ticket-header h1 { font-size: 20px; }
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .msg__bubble .cursor { animation: none; }
+  #sendBtn:hover { transform: none; }
+}
