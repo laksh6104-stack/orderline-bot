@@ -96,3 +96,7 @@ app.post("/api/chat", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Orderline server running on port ${PORT}`);
 });
+
+Switch to Groq
+
+
