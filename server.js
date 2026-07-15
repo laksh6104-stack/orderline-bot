@@ -18,6 +18,7 @@ app.use(express.static("public"));
 // --- OpenAI client (API key stays server-side, never sent to the browser) ---
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_BASE_URL || undefined,
 });
 
 // --- Domain knowledge the assistant is grounded in ---
@@ -70,7 +71,7 @@ app.post("/api/chat", async (req, res) => {
 
   try {
     const stream = await openai.chat.completions.create({
-      model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+      model: process.env.OPENAI_MODEL || "llama-3.3-70b-versatile",
       messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
       temperature: 0.4,
       stream: true,
